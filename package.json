@@ -1,0 +1,13 @@
+{
+  "name": "ic2-genetic-reactors",
+  "author": "Chris Breneman <crispy@cluenet.org>",
+  "version": "0.0.1",
+  "dependencies": {
+    "async": "*",
+    "node.extend": "*",
+    "express": "*",
+    "body-parser": "*",
+    "cors": "*",
+    "ic2-reactor-sim": "*"
+  }
+}

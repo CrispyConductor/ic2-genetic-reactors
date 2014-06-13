@@ -1,0 +1,18 @@
+Application to determine an optimal Minecraft IC2 nuclear reactor design, utilizing a genetic algorithm and the ic2-reactor-sim fast simulator module.
+
+Different reactor types can be optimized for by editing genetic-config.js .  The default configuration optimizes for an efficiency mark I reactor.
+
+The application is intensive, and is designed to be long-running.  If the application is stopped, it saves its state in a file called current-state.json .  It will automatically resume from this file if restarted.  Remove the file to start over (it's best to remove the file after changing configuration).
+
+To run the application, run `node app.js` .  It will print out the current top result at the end of each generation (note that, utilizing the default configuration, there will be no top result for the first 50 generations).  I recommend setting the environment variable UV_THREADPOOL_SIZE to at least your number of processor cores to take advantage of ic2-reactor-sim's ability to run in parallel.
+
+The application will also listen on port 3005 for connections to its web UI.  To see the web UI, go to `http://localhost:3005/static/index.html` in a web browser.
+
+Generally, the algorithm will not produce viable designs before it runs for a while.  I often allow simulations to run for several days (on all cores) before it permanently stabilizes.
+
+Definitions:
+- Member/Reactor: A single reactor design being tested.
+- Family: A group of related reactor designs, usually mutated from each other.
+- Population: A group of related families, scored by the same criteria.
+- Promoted Population: An elite class of reactor designs, promoted from other populations at a fixed interval.  Scoring in this population is mostly based on optimizing cost without decreasing performance.
+

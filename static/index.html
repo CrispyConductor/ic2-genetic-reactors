@@ -1,0 +1,106 @@
+<html>
+	<head>
+		<link href="table.css" rel="stylesheet" type="text/css" media="all">
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script type="text/javascript">
+var topFamilies = 3;
+var topMembers = 3;
+
+function show(data) {
+	$('#genctr').text(data.curGeneration);
+	var main = $('#main');
+	main.empty();
+	Object.keys(data.populations).sort(function(a, b) {
+		if(a == 'promoted') return -1;
+		if(b == 'promoted') return 1;
+		return 0;
+	}).forEach(function(popId) {
+		var population = data.populations[popId];
+		main.append($('<h2 />').text('Population - ' + popId).addClass('population-title'));
+		population.families.forEach(function(family, familyIdx) {
+			main.append($('<h3 />').text('Family ' + familyIdx).addClass('family-title'));
+			main.append($('<div />').text('Top score changed ' + (data.curGeneration - family.lastGenerationScoreChange) + ' generations ago').addClass('top-score-changed'));
+			var familyDiv = $('<div />').addClass('family-div');
+			family.members.forEach(function(member) {
+				var reactorTable = $('<table />');
+				var dataIdx = 0;
+				for(var rowNum = 0; rowNum < member.grid.height; rowNum++) {
+					var tableRow = $('<tr />');
+					for(var colNum = 0; colNum < member.grid.width; colNum++) {
+						tableRow.append(
+							$('<td />').append(
+								$('<img />').addClass(member.grid.data[dataIdx++].toLowerCase()).attr('src', 'img/XX.png')
+							)
+						);
+					}
+					reactorTable.append(tableRow);
+				}
+				var reactorSpan = $('<span />');
+				reactorSpan.append($('<div />').append(reactorTable));
+
+				var resultsDiv = $('<div />');
+				function addResult(name, value) {
+					if(typeof value != 'number' || (value != 0 && value != -1)) {
+						resultsDiv.append($('<div />').text('' + name + ': ' + value));
+					}
+				}
+				var resultsNameMap = {
+					efficiency: 'Efficiency',
+					euPerTick: 'EU/t',
+					overallEUPerTick: 'Avg. EU/t',
+					mark: 'Mark',
+					numIterationsBeforeFailure: 'Iterations Before Failure',
+					cooldownTicks: 'Cooldown After Failure',
+					ticksUntilComponentFailure: 'Component Failure After Ticks',
+					ticksUntilMeltdown: 'Meltdown After Ticks',
+					totalCost: 'Cost',
+					unusedColumns: 'Unused Columns'
+				};
+				Object.keys(resultsNameMap).forEach(function(rid) {
+					if(member.results[rid]) {
+						addResult(resultsNameMap[rid], member.results[rid]);
+					}
+				});
+				addResult('Score', member.score);
+
+				reactorSpan.append(resultsDiv);
+
+				familyDiv.append(reactorSpan);
+			});
+			main.append(familyDiv);
+		});
+	});
+}
+
+function update(cb) {
+	$.ajax({
+		error: function(xhr, status, err) {
+			$('#main').text(status);
+			cb();
+		},
+		success: function(data) {
+			show(data);
+			cb();
+		},
+		url: '/status?topFamilies=' + topFamilies + '&topMembers=' + topMembers
+	});
+}
+
+function updateLoop() {
+	update(function() {
+		setTimeout(updateLoop, 10000);
+	});
+}
+
+updateLoop();
+		</script>
+	</head>
+	<body>
+		<h1>Genetic Reactor Status</h1>
+		<div>
+			Current generation: <span id="genctr">--</span>
+		</div>
+		<div id="main">
+		</div>
+	</body>
+</html>

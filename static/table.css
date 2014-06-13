@@ -1,0 +1,88 @@
+body{
+	background-color: black;
+	color: white;
+}
+table{
+	border: 2px solid white;
+	background-color: #c6c6c6;
+	margin-left: auto;
+	margin-right: auto;
+}
+tr{
+	background-color: #8b8b8b;
+	padding: 2px;
+}
+td{
+	width: 32px;
+	height: 32px;
+}
+
+img.c1{
+	background:url(img/C1.png);
+}
+img.c3{
+	background:url(img/C3.png);
+}
+img.c6{
+	background:url(img/C6.png);
+}
+img.cl{
+	background:url(img/CL.png);
+}
+img.cr{
+	background:url(img/CR.png);
+}
+img.ea{
+	background:url(img/EA.png);
+}
+img.ec{
+	background:url(img/EC.png);
+}
+img.ee{
+	background:url(img/EE.png);
+}
+img.er{
+	background:url(img/ER.png);
+}
+img.nn{
+	background:url(img/NN.png);
+}
+img.nt{
+	background:url(img/NT.png);
+}
+img.pc{
+	background:url(img/PC.png);
+}
+img.ph{
+	background:url(img/PH.png);
+}
+img.pp{
+	background:url(img/PP.png);
+}
+img.u1{
+	background:url(img/U1.png);
+}
+img.u2{
+	background:url(img/U2.png);
+}
+img.u4{
+	background:url(img/U4.png);
+}
+img.va{
+	background:url(img/VA.png);
+}
+img.vc{
+	background:url(img/VC.png);
+}
+img.vo{
+	background:url(img/VO.png);
+}
+img.vr{
+	background:url(img/VR.png);
+}
+img.vv{
+	background:url(img/VV.png);
+}
+img.xx{
+	background:url(img/XX.png);
+}
